@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mesto</title>
+</head>
+
+<body class="page">
+    <header class="header">
+        <div class="header__logo"></div>
+    </header>
+    <main class="content">
+        <section class="profile">
+            <div class="profile__container">
+                <img src="<%=require('./images/avatar.png')%>" alt="Аватар пользователя (Жак Ив Кусто)" class="profile__avatar">
+                <div class="profile-info">
+                    <h1 class="profile-info__title">Жак-Ив Кусто</h1>
+                    <button class="profile-info__edit-button" aria-label="Редактировать профиль" type="button"></button>
+                    <p class="profile-info__intro">Исследователь океана</p>
+
+                </div>
+
+                <button class="profile__add-button" aria-label="Добавить" type="button">
+                </button>
+            </div>
+        </section>
+        <section class="elements">
+            <ul class="elements__container">
+                <!-- <li class="element">
+                    <img class="element__image" src="./images/karachaevsk.png" alt="Сентинский храм">
+                    <div class="element__heading">
+                        <h2 class="element__title">Карачаевск</h2>
+                        <button class="element__like-button" type="button"></button>
+                    </div>
+                </li>
+
+                <li class="element">
+                    <button type="button" class="element__delete" aria-label="Удалить"></button>
+                    <img class="element__image" src="./images/elbrus.png" alt="Эльбрус на закате">
+                    <div class="element__heading">
+                        <h2 class="element__title">Гора Эльбрус</h2>
+                        <button class="element__like-button element__like-button_active" type="button"></button>
+                    </div>
+                </li>
+
+                <li class="element">
+                    <img class="element__image" src="./images/dombay.png" alt="Домбайская Поляна">
+                    <div class="element__heading">
+                        <h2 class="element__title">Домбай</h2>
+                        <button class="element__like-button" type="button"></button>
+                    </div>
+                </li>
+
+                <li class="element">
+                    <img class="element__image" src="./images/elbrus.png" alt="Эльбрус на закате">
+                    <div class="element__heading">
+                        <h2 class="element__title">Гора Эльбрус</h2>
+                        <button class="element__like-button" type="button"></button>
+                    </div>
+                </li>
+
+                <li class="element">
+                    <img class="element__image" src="./images/dombay.png" alt="Домбайская Поляна">
+                    <div class="element__heading">
+                        <h2 class="element__title">Домбай</h2>
+                        <button class="element__like-button" type="button"></button>
+                    </div>
+                </li>-->
+
+                <!-- <li class="element">
+                    <img class="element__image" src="./images/karachaevsk.png" alt="Сентинский храм">
+                    <div class="element__heading">
+                        <h2 class="element__title">Карачаево-Черкессия</h2>
+                        <button class="element__like-button" type="button"></button>
+                    </div>
+                </li>  -->
+            </ul>
+        </section>
+        <footer class="footer">
+            <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
+        </footer>
+    </main>
+    <div class="popup popup_edit_profile">
+        <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <form class="popup__form" name="profile-info" method="get" novalidate>
+                <label class='popup__label-first' for="popup__name">
+                    <input class="popup__input popup__input_type_name" type="text" id="popup__name" name="input-name"
+                        placeholder="Имя" minlength="2" maxlength="40" required>
+                    <span class="popup__error popup__name-error"></span>
+                </label>
+
+                <label class='popup__label-last' for="popup__job">
+                    <input class="popup__input popup__input_type_job" type="text" id="popup__job" name="input-info"
+                        placeholder="О себе" minlength="2" maxlength="200" required>
+                    <span class="popup__error popup__job-error"></span>
+                </label>
+                <button class="popup__button" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+    <div class="popup popup_add_element">
+        <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <h2 class="popup__title">Новое место</h2>
+            <form class="popup__form popup__form_create" name="card-form" novalidate>
+                <label class='popup__label-first' for="popup__place">
+                    <input class="popup__input popup__input_type_place" type="text" id="popup__place" name="input-place"
+                        placeholder="Название" minlength="2" maxlength="30" required>
+                    <span class="popup__error popup__place-error"></span>
+                </label>
+
+                <label class='popup__label-last' for="popup__link">
+                    <input class="popup__input popup__input_type_link" type="url" id="popup__link" name="input-link"
+                        placeholder="Ссылка на фото" minlength="2" maxlength="200" required>
+                    <span class="popup__error popup__link-error"></span>
+                </label>
+                <button class="popup__button" type="submit">Создать</button>
+            </form>
+        </div>
+    </div>
+    <template id="element-template">
+        <li class="element">
+            <button class="element__delete-button">
+            </button>
+            <img src="#" alt="_" class="element__image">
+            <div class="element__heading">
+                <h2 class="element__title"></h2>
+                <button class="element__like-button">
+                </button>
+            </div>
+        </li>
+    </template>
+
+    <div class="popup popup_image_active">
+        <div class="popup__image-container">
+            <button class="popup__close" type="button"></button>
+            <img src="#" alt="_" class="popup__image">
+            <p class="popup__description"></p>
+        </div>
+    </div>
+    <!-- <script type="module" src="./scripts/index.js"></script> -->
+</body>
+
+</html>

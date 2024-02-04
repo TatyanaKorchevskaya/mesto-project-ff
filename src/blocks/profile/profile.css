@@ -1,0 +1,10 @@
+.profile {
+    width: 100%;
+    margin: 0 auto 50px auto;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .profile {
+      margin-bottom: 36px;
+    }
+  }

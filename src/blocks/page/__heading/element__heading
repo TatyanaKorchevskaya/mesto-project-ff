@@ -1,0 +1,15 @@
+.element__heading {
+  display: grid;
+  grid-template-columns: minmax(50px, 190px) 22px;
+  justify-content: space-between;
+  padding: 25px 20px 26px 21px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 480px) {
+  .element__heading {
+    max-width: 100%;
+    padding: 24px 20px 31px 21px;
+  }
+}
