@@ -1,0 +1,9 @@
+.profile__wrapper {
+  position: relative;
+}
+
+.profile__wrapper:hover .profile__background,
+.profile__wrapper:hover .profile__edit {
+  display: block;
+  cursor: pointer;
+}
