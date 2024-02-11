@@ -1,18 +1,19 @@
+import { deleteCardApi, addLikeApi, deleteLikeApi } from "./api.js";
+import { openPopup, closePopupEsc, closePopup } from "./modal.js";
+
 const cardTemplate = document.querySelector("#element-template").content;
+const popupImage = document.querySelector(".popup_image_active");
+const zoomImage = document.querySelector(".popup__image");
+const zoomDescription = document.querySelector(".popup__description");
 
 function deleteCard(element) {
   const cardId = element.getAttribute("data-card-id");
-
-  fetch(`https://nomoreparties.co/v1/wff-cohort-5/cards/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: "94722f8e-9854-4848-81d1-a8145df88ee4",
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
+  deleteCardApi(cardId)
     .then((result) => {
       element.remove();
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
@@ -22,33 +23,24 @@ function likeCard(evt) {
   const cardId = parent.getAttribute("data-card-id");
   const likeCount = parent.querySelector(".element__like-count");
   if (!element.classList.contains("element__like-button_active")) {
-    fetch(`https://nomoreparties.co/v1/wff-cohort-5/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: {
-        authorization: "94722f8e-9854-4848-81d1-a8145df88ee4",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
+    addLikeApi(cardId)
       .then((result) => {
         likeCount.textContent = result.likes.length;
         activeLike(element);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   } else {
-    fetch(`https://nomoreparties.co/v1/wff-cohort-5/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: {
-        authorization: "94722f8e-9854-4848-81d1-a8145df88ee4",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
+    deleteLikeApi(cardId)
       .then((result) => {
         likeCount.textContent = result.likes.length;
         unactiveLike(element);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
-  // evt.target.classList.toggle("element__like-button_active");
 }
 
 function activeLike(element) {
@@ -64,6 +56,7 @@ function getCard(item, { deleteCard, likeCard, handleImageClick }, user) {
   const elementTitle = cardElement.querySelector(".element__title");
   const elementImage = cardElement.querySelector(".element__image");
   const elementLikes = cardElement.querySelector(".element__like-count");
+  const elementLike = cardElement.querySelector(".element__like-button");
   const elementDelete = cardElement.querySelector(".element__delete-button");
   elementTitle.textContent = item.name;
   elementImage.src = item.link;
@@ -72,28 +65,22 @@ function getCard(item, { deleteCard, likeCard, handleImageClick }, user) {
 
   item.likes.forEach((like) => {
     if (like._id == user._id) {
-      activeLike(cardElement.querySelector(".element__like-button"));
+      activeLike(elementLike);
     }
   });
 
   if (user._id != item.owner._id) {
     elementDelete.style.display = "none";
   } else {
-    cardElement
-      .querySelector(".element__delete-button")
-      .addEventListener("click", function () {
-        deleteCard(cardElement);
-      });
+    cardElement;
+    elementDelete.addEventListener("click", function () {
+      deleteCard(cardElement);
+    });
   }
 
   cardElement.setAttribute("data-card-id", item.id);
-
-  cardElement
-    .querySelector(".element__like-button")
-    .addEventListener("click", likeCard);
-  cardElement
-    .querySelector(".element__image")
-    .addEventListener("click", handleImageClick);
+  elementLike.addEventListener("click", likeCard);
+  elementImage.addEventListener("click", handleImageClick);
 
   return cardElement;
 }
@@ -109,4 +96,4 @@ function handleImageClick(evt) {
   zoomImage.alt = `Фотография: ${description}`;
 }
 
-export { deleteCard, likeCard, getCard };
+export { deleteCard, likeCard, getCard, handleImageClick };

@@ -5,53 +5,82 @@ const config = {
     "Content-Type": "application/json",
   },
 };
-function changeProfileApi(nameInput, jobInput, btn) {
-  loading(btn, "Сохранение...");
+
+function checkResult(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+function changeProfileApi(name, about) {
+ 
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value,
+      name: name,
+      about: about,
     }),
-  });
+  }).then(checkResult);
 }
 
-function createCardApi(placeInput, linkInput, btn) {
-    loading(btn, "Создание...");
-    return fetch(`${config.baseUrl}/cards`, {
+function createCardApi(name, link) {
+  
+  return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({
-      name: placeInput.value,
-      link: linkInput.value,
+      name: name,
+      link: link,
     }),
-  });
+  }).then(checkResult);
 }
 
-function changeAvatarApi(avatarInput, btn) {
-    loading(btn, "Сохранение...");
+function changeAvatarApi(avatar) {
+ 
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
-      avatar: avatarInput.value,
+      avatar: avatar,
     }),
-  });
+  }).then(checkResult);
 }
 
 function getProfileApi() {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "GET",
     headers: config.headers,
-  });
+  }).then(checkResult);
 }
 
 function getCardsApi() {
   return fetch(`${config.baseUrl}/cards`, {
     method: "GET",
     headers: config.headers,
-  });
+  }).then(checkResult);
+}
+
+function deleteCardApi(cardId) {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
+  }).then(checkResult);
+}
+function addLikeApi(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: config.headers,
+  }).then(checkResult);
+}
+
+function deleteLikeApi(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
+  })
+  .then(checkResult);
 }
 
 function loading(btn, text) {
@@ -64,5 +93,8 @@ export {
   changeAvatarApi,
   getProfileApi,
   getCardsApi,
+  deleteCardApi,
+  addLikeApi,
+  deleteLikeApi,
   loading,
 };
